@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RLD Viewer</title>
+
+        <style>
+            body{background-color: #111;color:#fff;font-family:monospace}
+            div{border-radius:5px}
+            p{margin-top:5px;margin-bottom:5px}
+            input{display:inline-block}
+            .center{margin-right:auto;margin-left:auto;width:fit-content}
+            .container{background-color:#222;padding:5px;width:fit-content;text-align:center;padding-left:10px;padding-right:10px;margin-bottom:2px}
+            .con1{background-color:#111;padding:5px;margin-bottom:2px}
+            .con2{background-color:#222;padding:5px;margin-bottom:2px}
+
+            .main{display:flex}/*w3schools hard carry*/
+            .column{flex:50%;padding:5px}
+
+            .hidden{display:none}
+        </style>
+    </head>
+    <body>
+        <h1 class="center container" style="border-radius:10px">RLD Viewer</h1>
+        <div class="main">
+            <div class="column">
+                <div class="center container"><p>Input data as .JSON <span>
+                    <input id="jsonInput" type="file">
+                    <button onclick="displayData()">Display</button>
+                    <button onclick ="dostuff();displayData(results)">Display Processed</button>
+                    <button onclick ="document.getElementById('base').innerHTML = ''">Clear</button>
+                </span></div>
+                <div id = "base" class="center container" style="text-align:left"></div>
+            </div>
+            <div class="column">
+                <div class="center container" style="width:fit-content">
+                    <h2 style="width:100%;" class="center">  Priority List </h2>
+                    <div id="sample" class="hidden" style="text-align:left;background-color:#111;padding:2px;margin-bottom:2px">
+                        <span style="background-color:#333;color:#aaa;border-radius:3px;margin-right:8px">⠿ </span><span>[[T]]</span> | <span>[[C]]</span> | <span contenteditable="true">[[N]]</span>
+                    </div>
+                    <div id="listbase">
+                        
+                    </div>
+                    <div class="con1" style="text-align: left;">
+                        <div><span contenteditable="true" id="teamadd" style="padding:5px;background-color:#222;border-radius: 5px;">num</span> <button onclick="
+                            addToList(document.getElementById('teamadd').innerText.trim())">Add</button>
+                            <button onclick="removeFromList(document.getElementById('teamadd').innerText.trim())">Remove</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <script>
+            var results = JSON.parse(localStorage.getItem("lastResults") || "[]")
+
+            function dostuff(){
+
+                results = {};
+
+
+                for(var i = 0; i < data.length; i++){
+
+                    const n = data[i]["team number"]
+                    if(results[n] == undefined){
+                        results[n] = {}
+                    }
+
+                    results[n].team=n// for priority.js
+            
+                    results[n].l4 = results[n].l4 || (!!data[i]["level-4"] || !!data[i]["level 4"] || !!data[i]["Coral-4"])// if it has ever done it
+                    results[n].l3 = results[n].l3 || (!!data[i]["level-3"] || !!data[i]["level 3"] || !!data[i]["Coral-3"])
+                    results[n].l2 = results[n].l2 || (!!data[i]["level-2"] || !!data[i]["level 2"] || !!data[i]["Coral-2"])
+                    results[n].l1 = results[n].l1 || (!!data[i]["level-1"] || !!data[i]["level 1"] || !!data[i]["Coral-1"])
+
+                    results[n].cageLevel = Math.max(results[n].cage || 0,// cage 0 means park, 1 = shallow, 2 = deep
+                        (data[i]["end location"].includes("Deep Cage") ? 2 : 
+                        (data[i]["end location"].includes("Shallow Cage") ? 1 : 0))
+                    )
+
+                    results[n].doesDefense = results[n].doesDefense || (data[i]["defense"] == "Yes")
+
+                    results[n].doesAlgae = results[n].doesAlgae || (!!data[i]["processor"] || !!data[i]["net"] || !!data[i]["auto net"] || !!data[i]["auto processor"])
+
+                    results[n].auto = (results[n].auto || {})
+                    results[n].auto.moved = results[n].auto.moved || (data[i]["auto moved"] == "Yes") || (data[i]["field-1"] == "Moved")
+                    results[n].auto.coral = results[n].auto.coral || (
+                        !!data[i]["auto coral dropped"]
+                        || !!data[i]["level 1"]
+                        || !!data[i]["level 2"]
+                        || !!data[i]["level 3"]
+                        || !!data[i]["level 4"]
+                    )
+                    results[n].auto.algae = results[n].auto.algae || (
+                        !!data[i]["auto algae picked up"]
+                    )
+
+
+                    results[n].notes = (results[n].notes || "")
+                    results[n].notes += (results[n].notes.endsWith('\n') || results[n].notes == "" ? '' : '\n')+ i + ": " + (data[i]["comments"] || '<blank>')
+                }
+
+                localStorage.setItem("lastResults", JSON.stringify(results))
+            }
+        </script>
+
+        <script>
+
+            var data = JSON.parse(localStorage.getItem('lastLoaded') || "[]");
+
+            document.getElementById('jsonInput').addEventListener('change', ()=>{
+                const file = document.getElementById('jsonInput').files[0]
+                const r = new FileReader()
+                r.onload = ()=>{
+                    data = JSON.parse(r.result)
+                    localStorage.setItem('lastLoaded', r.result)
+                    console.log(data)
+                }
+                r.readAsText(file)
+            })
+
+        </script>
+
+        <script src="display.js"></script>
+        <script src="priority.js"></script>
+
+
+        <script>function clearLocalStorage(){// use if gets cluttered, idk
+            localStorage.removeItem('lastLoaded')
+            localStorage.removeItem('lastResults')
+            localStorage.removeItem('priorityList')
+        }</script>
+
+    </body>
+</html>
