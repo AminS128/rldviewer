@@ -23,7 +23,7 @@ function loadList(list=prioritylist){// more like display than load, wtv
             (list[i].l3 ? "L3 " : "") + 
             (list[i].doesAlgae ? "Algae " : "") +
             (list[i].auto.coral ? "Auto " : "") + // only counts coral in auto, since moving is p much always and algae doesnt happen
-            (list[i].cage == 2 ? "Deep" : (list[i].cage == 1 ? "Shallow" : ""))
+            (list[i].cageLevel == 2 ? "Deep" : (list[i].cageLevel == 1 ? "Shallow" : ""))
         )
         .replace("[[N]]", list[i].notes)
 
