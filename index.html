@@ -27,7 +27,7 @@
                     <input id="jsonInput" type="file">
                     <button onclick="displayData()">Display</button>
                     <button onclick ="dostuff();displayData(results)">Display Processed</button>
-                    <button onclick ="document.getElementById('base').innerHTML = ''">Clear</button>
+                    <button onclick ="document.getElementById('base').innerHTML=''">Clear</button>
                 </span></div>
                 <div id = "base" class="center container" style="text-align:left"></div>
             </div>
@@ -37,9 +37,9 @@
                     <div id="sample" class="hidden" style="text-align:left;background-color:#111;padding:2px;margin-bottom:2px">
                         <span style="background-color:#333;color:#aaa;border-radius:3px;margin-right:8px">⠿ </span><span>[[T]]</span> | <span>[[C]]</span> | <span contenteditable="true">[[N]]</span>
                     </div>
-                    <div id="listbase">
-                        
-                    </div>
+
+                    <div id="listbase"></div>
+                    
                     <div class="con1" style="text-align: left;">
                         <div><span contenteditable="true" id="teamadd" style="padding:5px;background-color:#222;border-radius: 5px;">num</span> <button onclick="
                             addToList(document.getElementById('teamadd').innerText.trim())">Add</button>

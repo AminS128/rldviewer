@@ -38,23 +38,25 @@ function loadList(list=prioritylist){// more like display than load, wtv
         }
 
         newe.children[0].addEventListener('mousedown', (e)=>{
-            // console.log('on')
+            console.log('on')
             window.addEventListener('mousemove', moveListener)
 
         })
         newe.children[0].addEventListener('mouseup', (e)=>{
-            // console.log('off')
+            console.log('off')
 
             window.removeEventListener('mousemove', moveListener)
 
             // reorder
             var newIndex = 0
-            while (base.children[newIndex].getBoundingClientRect().top + window.scrollY + base.children[newIndex].getBoundingClientRect().height/2 < e.pageY && newIndex < base.children.length-1){
+            while (
+                (base.children[newIndex].getBoundingClientRect().top + window.scrollY + base.children[newIndex].getBoundingClientRect().height/2 < e.pageY 
+                && newIndex < base.children.length-1) || (base.children[newIndex] == newe)){
                 newIndex++
                 // console.log(base.children[newIndex].getBoundingClientRect().top + window.scrollY)
             }
 
-            // console.log(newIndex)
+            console.log(newIndex)
             var temp = prioritylist.splice(Array.prototype.indexOf.call(base.children, newe), 1)[0]
             prioritylist.splice(newIndex, 0, temp)
             
