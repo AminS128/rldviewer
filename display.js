@@ -86,3 +86,5 @@ function displayData(toLoad=data){
     document.getElementById('base').innerHTML = ''//clear
     displayDataR(document.getElementById('base'), toLoad, 0)
 }
+
+displayData(results)
