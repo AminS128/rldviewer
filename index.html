@@ -45,9 +45,16 @@
                             addToList(document.getElementById('teamadd').innerText.trim())">Add</button>
                             <button onclick="removeFromList(document.getElementById('teamadd').innerText.trim())">Remove</button></div>
                     </div>
+
+                    <span contenteditable="false">Notes:<br></span>
+                    <div contenteditable="true" class="con1" id = 'notes' style="text-align:left">
+                        
+                    </div>
                 </div>
             </div>
         </div>
+
+        <script>var notes=localStorage.getItem('notes')||"";document.getElementById('notes').innerText=notes;setInterval(()=>{localStorage.setItem('notes', document.getElementById('notes').innerText)},3000)</script>
         
 
         <script>
