@@ -10,8 +10,10 @@
             input{display:inline-block}
             .center{margin-right:auto;margin-left:auto;width:fit-content}
             .container{background-color:#222;padding:5px;width:fit-content;text-align:center;padding-left:10px;padding-right:10px;margin-bottom:2px}
-            .con1{background-color:#111;padding:5px;margin-bottom:2px}
-            .con2{background-color:#222;padding:5px;margin-bottom:2px}
+            .con1{background-color:#111;padding:5px;margin-bottom:2px;text-align:left}
+            .con2{background-color:#222;padding:5px;margin-bottom:2px;text-align:left}
+
+            .m{margin:10px;margin-top:5px}
 
             .main{display:flex}/*w3schools hard carry*/
             .column{flex:50%;padding:5px}
@@ -32,7 +34,7 @@
                 <div id = "base" class="center container" style="text-align:left"></div>
             </div>
             <div class="column">
-                <div class="center container" style="width:fit-content">
+                <div class="center container" style="width:100%">
                     <h2 style="width:100%;" class="center">  Priority List </h2>
                     <div id="sample" class="hidden" style="text-align:left;background-color:#111;padding:2px;margin-bottom:2px">
                         <span style="background-color:#333;color:#aaa;border-radius:3px;margin-right:8px">⠿ </span><span>[[T]]</span> | <span>[[C]]</span> | <span contenteditable="true">[[N]]</span>
@@ -41,25 +43,41 @@
                     <div id="listbase"></div>
                     
                     <div class="con1" style="text-align: left;">
-                        <div><span contenteditable="true" id="teamadd" style="padding:5px;background-color:#222;border-radius: 5px;">num</span> <button onclick="
-                            addToList(document.getElementById('teamadd').innerText.trim())">Add</button>
-                            <button onclick="removeFromList(document.getElementById('teamadd').innerText.trim())">Remove</button></div>
+                        <span contenteditable="true" id="teamadd" style="padding:5px;background-color:#222;border-radius: 5px;">num</span> <button onclick="
+                        addToList(document.getElementById('teamadd').innerText.trim())">Add</button>
+                        <button onclick="removeFromList(document.getElementById('teamadd').innerText.trim())">Remove</button>
                     </div>
 
-                    <span contenteditable="false">Notes:<br></span>
-                    <div contenteditable="true" class="con1" id = 'notes' style="text-align:left">
-                        
+                    <p><br>Notes:</p>
+                    <div contenteditable="true" class="m con1" id = 'notes' style="text-align:left"></div>
+
+                    <p><br>Pick choices:</p>
+                    <div style="display:flex" id="colnotes">
+                        <div style="flex:25%" contenteditable="true" class="m con1"></div>
+                        <div style="flex:25%" contenteditable="true" class="m con1"></div>
+                        <div style="flex:25%" contenteditable="true" class="m con1"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script>var notes=localStorage.getItem('notes')||"";document.getElementById('notes').innerText=notes;setInterval(()=>{localStorage.setItem('notes', document.getElementById('notes').innerText)},3000)</script>
+        <script>
+            var notes=JSON.parse(localStorage.getItem('notes')||`{"main":"","sub":["Role 1:","Role 2:","Role 3:"]}`);
+            document.getElementById('notes').innerText=notes.main;
+            const colnotes = document.getElementById('colnotes').children
+            colnotes[0].innerText=notes.sub[0]+(notes.sub[0].endsWith('\n')?'':'\n')
+            colnotes[1].innerText=notes.sub[1]+(notes.sub[1].endsWith('\n')?'':'\n')
+            colnotes[2].innerText=notes.sub[2]+(notes.sub[2].endsWith('\n')?'':'\n')
+            setInterval(()=>{localStorage.setItem('notes', 
+            JSON.stringify({main:document.getElementById('notes').innerText,
+                sub:[colnotes[0].innerText,colnotes[1].innerText,colnotes[2].innerText]
+            }))
+            },3000)
+        </script>
         
 
         <script>
             var results = JSON.parse(localStorage.getItem("lastResults") || "[]")
-
             function dostuff(){
 
                 results = {};
@@ -120,7 +138,7 @@
                 r.onload = ()=>{
                     data = JSON.parse(r.result)
                     localStorage.setItem('lastLoaded', r.result)
-                    console.log(data)
+                    // console.log(data)
                 }
                 r.readAsText(file)
             })
@@ -135,6 +153,7 @@
             localStorage.removeItem('lastLoaded')
             localStorage.removeItem('lastResults')
             localStorage.removeItem('priorityList')
+            localStorage.removeItem('notes')
         }</script>
 
     </body>
