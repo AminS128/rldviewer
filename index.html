@@ -22,6 +22,13 @@
         </style>
     </head>
     <body>
+
+        <script>const goats = [
+            1418,// all day everyday
+            2199, 5338, 5549, 620, 612, 3748, 836, 122, 8230, 2534, 2963]
+            const nuhuh = [623, 5587, 9864, 10449]
+        </script>
+
         <h1 class="center container" style="border-radius:10px">RLD Viewer</h1>
         <div class="main">
             <div class="column">
@@ -102,6 +109,14 @@
                         (data[i]["end location"].includes("Shallow Cage") ? 1 : 0))
                     )
 
+                    results[n].dataPoints = (results[n].dataPoints || 0) + 1
+                    results[n].coralTotal = (results[n].coralTotal || 0 )
+
+                    results[n].coralTotal += data[i]["Coral-1"] + data[i]["Coral-2"] + data[i]["Coral-3"] + data[i]["Coral-4"]
+                    results[n].coralTotal += data[i]["level 1"] + data[i]["level 2"] + data[i]["level 3"] + data[i]["level 4"]
+                    
+                    results[n].coralPerGame = results[n].coralTotal / results[n].dataPoints
+
                     results[n].doesDefense = results[n].doesDefense || (data[i]["defense"] == "Yes")
 
                     results[n].doesAlgae = results[n].doesAlgae || (!!data[i]["processor"] || !!data[i]["net"] || !!data[i]["auto net"] || !!data[i]["auto processor"])
@@ -155,6 +170,8 @@
             localStorage.removeItem('priorityList')
             localStorage.removeItem('notes')
         }</script>
+
+        <script src="script.js"></script>
 
     </body>
 </html>

@@ -38,12 +38,12 @@ function loadList(list=prioritylist){// more like display than load, wtv
         }
 
         newe.children[0].addEventListener('mousedown', (e)=>{
-            console.log('on')
+            // console.log('on')
             window.addEventListener('mousemove', moveListener)
 
         })
         newe.children[0].addEventListener('mouseup', (e)=>{
-            console.log('off')
+            // console.log('off')
 
             window.removeEventListener('mousemove', moveListener)
 
@@ -80,7 +80,7 @@ function loadList(list=prioritylist){// more like display than load, wtv
 function addToList(n){
     var topush = results[n];
 
-    if(!topush){console.log("no data on team");
+    if(!topush){//console.log("no data on team");
         topush = {team:n, auto:{}, notes:"no data"}
     }// null, undefined, etc (empty object is truthy)
 

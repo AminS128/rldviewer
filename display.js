@@ -23,7 +23,8 @@ const ignorelist = [
     'cancel algae',
     'cancel',
     'serverCreatedAt',
-    'dropped button'
+    'dropped button',
+    'coralTotal'
 ]// tags to ignore when displaying data
 
 const listlist = [// list of keys which correspond to fields which are a list of timestamps rather than a counter
@@ -38,6 +39,7 @@ const listlist = [// list of keys which correspond to fields which are a list of
 
 
 function displayDataR(element, toLoad, n=0){
+
     // takes data from data var
 
     if(toLoad == null || toLoad == undefined){return}
@@ -76,6 +78,7 @@ function displayDataR(element, toLoad, n=0){
         const ndiv = document.createElement('div')
         ndiv.className = "con" + ((n%2)+1)
         ndiv.innerText=keys[i]
+
         element.appendChild(ndiv)
         displayDataR(ndiv, toLoad[keys[i]], n+1)
     }
@@ -86,5 +89,6 @@ function displayData(toLoad=data){
     document.getElementById('base').innerHTML = ''//clear
     displayDataR(document.getElementById('base'), toLoad, 0)
 }
+
 
 displayData(results)
